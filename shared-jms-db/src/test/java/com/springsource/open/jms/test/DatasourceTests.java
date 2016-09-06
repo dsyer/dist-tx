@@ -24,14 +24,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/META-INF/spring/jms-context.xml")
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class DatasourceTests {
 
 	private JdbcTemplate simpleJdbcTemplate;
@@ -43,8 +43,8 @@ public class DatasourceTests {
 
 	@Transactional @Test
 	public void testTemplate() throws Exception {
-		assertEquals(0, JdbcTestUtils.countRowsInTable(simpleJdbcTemplate, "T_FOOS"));
-		simpleJdbcTemplate.update("INSERT into T_FOOS (id,name,foo_date) values (?,?,null)", 0, "foo");
-		assertEquals(1, JdbcTestUtils.countRowsInTable(simpleJdbcTemplate, "T_FOOS"));
+		int count = JdbcTestUtils.countRowsInTable(simpleJdbcTemplate, "T_FOOS");
+		simpleJdbcTemplate.update("INSERT into T_FOOS (id,name,foo_date) values (?,?,null)", count, "spam");
+		assertEquals(count + 1, JdbcTestUtils.countRowsInTable(simpleJdbcTemplate, "T_FOOS"));
 	}
 }

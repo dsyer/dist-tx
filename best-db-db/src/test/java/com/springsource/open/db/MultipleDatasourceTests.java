@@ -26,24 +26,24 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.transaction.AfterTransaction;
 import org.springframework.test.context.transaction.BeforeTransaction;
 import org.springframework.transaction.annotation.Transactional;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/META-INF/spring/data-source-context.xml")
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public class MultipleDatasourceTests {
 
 	private JdbcTemplate jdbcTemplate;
 	private JdbcTemplate otherJdbcTemplate;
 
 	@Autowired
-	public void setDataSources(@Qualifier("dataSource") DataSource dataSource,
-			@Qualifier("otherDataSource") DataSource otherDataSource) {
+	public void setDataSources(@Qualifier("firstDataSource") DataSource dataSource,
+			@Qualifier("secondDataSource") DataSource otherDataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 		this.otherJdbcTemplate = new JdbcTemplate(otherDataSource);
 	}

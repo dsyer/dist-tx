@@ -16,32 +16,46 @@
 
 package com.springsource.open.db;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 
 import javax.sql.DataSource;
 
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.jta.JtaTransactionManager;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "/META-INF/spring/data-source-context.xml")
+@RunWith(SpringRunner.class)
+@SpringBootTest
 public abstract class BaseDatasourceTests {
+
+	@Autowired
+	private PlatformTransactionManager transactionManager;
 
 	private JdbcTemplate jdbcTemplate;
 	private JdbcTemplate otherJdbcTemplate;
-	
+
 	protected JdbcTemplate getJdbcTemplate() {
 		return jdbcTemplate;
 	}
 
 	protected JdbcTemplate getOtherJdbcTemplate() {
 		return otherJdbcTemplate;
+	}
+
+	@Before
+	public void check() {
+		assertTrue("Wrong transactionManager: " + transactionManager,
+				transactionManager instanceof JtaTransactionManager);
 	}
 
 	@BeforeClass
@@ -60,8 +74,8 @@ public abstract class BaseDatasourceTests {
 	}
 
 	@Autowired
-	public void setDataSources(@Qualifier("dataSource") DataSource dataSource,
-			@Qualifier("otherDataSource") DataSource otherDataSource) {
+	public void setDataSources(@Qualifier("firstDataSource") DataSource dataSource,
+			@Qualifier("secondDataSource") DataSource otherDataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 		this.otherJdbcTemplate = new JdbcTemplate(otherDataSource);
 	}

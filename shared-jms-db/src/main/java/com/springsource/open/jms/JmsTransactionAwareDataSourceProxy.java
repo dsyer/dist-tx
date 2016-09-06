@@ -202,7 +202,7 @@ public class JmsTransactionAwareDataSourceProxy extends TransactionAwareDataSour
 			@Override
 			public void beforeCommit(boolean readOnly) {
 
-				jmsTemplate.execute(new SessionCallback() {
+				jmsTemplate.execute(new SessionCallback<Object>() {
 					public Object doInJms(final Session session) throws JMSException {
 						try {
 							logger.debug("Committing JMS Session");

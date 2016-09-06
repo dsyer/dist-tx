@@ -75,7 +75,7 @@ public class DataSourceInitializer implements InitializingBean, DisposableBean {
 	 */
 	public static void main(String... args) {
 		new ClassPathXmlApplicationContext(ClassUtils.addResourcePathToPackagePath(DataSourceInitializer.class,
-				DataSourceInitializer.class.getSimpleName() + "-context.xml"));
+				DataSourceInitializer.class.getSimpleName() + "-context.xml")).close();
 	}
 
 	/**
@@ -131,10 +131,10 @@ public class DataSourceInitializer implements InitializingBean, DisposableBean {
 		if (scriptResource == null || !scriptResource.exists())
 			return;
 		TransactionTemplate transactionTemplate = new TransactionTemplate(new DataSourceTransactionManager(dataSource));
-		transactionTemplate.execute(new TransactionCallback() {
+		transactionTemplate.execute(new TransactionCallback<Void>() {
 
 			@SuppressWarnings("unchecked")
-			public Object doInTransaction(TransactionStatus status) {
+			public Void doInTransaction(TransactionStatus status) {
 				JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
 				String[] scripts;
 				try {

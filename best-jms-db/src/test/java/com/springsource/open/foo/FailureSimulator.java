@@ -12,8 +12,10 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jms.connection.SessionProxy;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.SessionCallback;
+import org.springframework.stereotype.Component;
 
 @Aspect
+@Component
 public class FailureSimulator {
 
 	private JmsTemplate jmsTemplate;
@@ -32,14 +34,12 @@ public class FailureSimulator {
 
 		// Simulate a message system failure before the main transaction
 		// commits...
-		jmsTemplate.execute(new SessionCallback() {
+		jmsTemplate.execute(new SessionCallback<Object>() {
 			public Object doInJms(Session session) throws JMSException {
 				try {
 					assertTrue("Not a SessionProxy - wrong spring version?",
 							session instanceof SessionProxy);
 					((SessionProxy) session).getTargetSession().rollback();
-				} catch (JMSException e) {
-					throw e;
 				} catch (Exception e) {
 					// swallow it
 					e.printStackTrace();

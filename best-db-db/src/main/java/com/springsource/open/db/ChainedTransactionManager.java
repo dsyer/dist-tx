@@ -15,17 +15,16 @@ import org.springframework.transaction.support.DefaultTransactionStatus;
  * @author Dave Syer
  *
  */
-public class ChainedTransactionManager extends
-		AbstractPlatformTransactionManager {
+@SuppressWarnings("serial")
+public class ChainedTransactionManager extends AbstractPlatformTransactionManager {
 
-	private List<PlatformTransactionManager> transactionManagers = new ArrayList<PlatformTransactionManager>();
-	private ArrayList<PlatformTransactionManager> reversed;
+	private final List<PlatformTransactionManager> transactionManagers = new ArrayList<PlatformTransactionManager>();
+	private final ArrayList<PlatformTransactionManager> reversed;
 
-	public void setTransactionManagers(
+	public ChainedTransactionManager(
 			List<PlatformTransactionManager> transactionManagers) {
-		this.transactionManagers = transactionManagers;
-		reversed = new ArrayList<PlatformTransactionManager>(
-				transactionManagers);
+		this.transactionManagers.addAll(transactionManagers);
+		reversed = new ArrayList<PlatformTransactionManager>(transactionManagers);
 		Collections.reverse(reversed);
 	}
 
@@ -42,8 +41,7 @@ public class ChainedTransactionManager extends
 	}
 
 	@Override
-	protected void doCommit(DefaultTransactionStatus status)
-			throws TransactionException {
+	protected void doCommit(DefaultTransactionStatus status) throws TransactionException {
 		@SuppressWarnings("unchecked")
 		List<DefaultTransactionStatus> list = (List<DefaultTransactionStatus>) status
 				.getTransaction();
@@ -52,7 +50,8 @@ public class ChainedTransactionManager extends
 			TransactionStatus local = list.get(i++);
 			try {
 				transactionManager.commit(local);
-			} catch (TransactionException e) {
+			}
+			catch (TransactionException e) {
 				logger.error("Error in commit", e);
 				// Rollback will ensue as long as rollbackOnCommitFailure=true
 				throw e;
@@ -77,13 +76,14 @@ public class ChainedTransactionManager extends
 			TransactionStatus local = list.get(i++);
 			try {
 				transactionManager.rollback(local);
-			} catch (TransactionException e) {
-				// Log exception and try to complete rollback 
+			}
+			catch (TransactionException e) {
+				// Log exception and try to complete rollback
 				lastException = e;
 				logger.error("Error in rollback", e);
 			}
 		}
-		if (lastException!=null) {
+		if (lastException != null) {
 			throw lastException;
 		}
 	}

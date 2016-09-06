@@ -7,22 +7,22 @@ import javax.sql.DataSource;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 
 @Service
 public class FooHandler implements Handler {
 
 	private static final Log log = LogFactory.getLog(FooHandler.class);
-	private JdbcTemplate jdbcTemplate;
-	private AtomicInteger count = new AtomicInteger(0);
+	private final JdbcTemplate jdbcTemplate;
+	private final AtomicInteger count = new AtomicInteger(0);
 
-	@Autowired
-	public void setDataSource(DataSource dataSource) {
+	public FooHandler(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
+	@JmsListener(destination="async")
 	public void handle(String msg) {
 
 		log.debug("Received message: [" + msg + "]");
