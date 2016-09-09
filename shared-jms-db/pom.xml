@@ -40,9 +40,16 @@ processing with Spring where the database resource is shared so there is no need
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+		  <groupId>org.apache.activemq</groupId>
+		  <artifactId>activemq-jdbc-store</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-core</artifactId>
-			<version>5.1.0</version>
+			<artifactId>activemq-kahadb-store</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-broker</artifactId>
 			<exclusions>
 				<exclusion>
 					<groupId>commons-logging</groupId>
