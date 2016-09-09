@@ -37,54 +37,23 @@ processing with Spring where the database resource is shared so there is no need
 		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.activemq</groupId>
-			<artifactId>activemq-core</artifactId>
-			<version>5.1.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>mx4j</groupId>
-					<artifactId>mx4j</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.geronimo.specs</groupId>
-					<artifactId> geronimo-j2ee-management_1.0_spec </artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.activemq</groupId>
-					<artifactId>activeio-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.camel</groupId>
-					<artifactId>camel-core</artifactId>
-				</exclusion>
-			</exclusions>
-			<scope>test</scope>
+			<artifactId>activemq-kahadb-store</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>javax.jms</groupId>
-			<artifactId>jms-api</artifactId>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-jdbc-store</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.geronimo.specs</groupId>
-			<artifactId>geronimo-j2ee-management_1.1_spec</artifactId>
-			<version>1.0.1</version>
-			<scope>test</scope>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-broker</artifactId>
 		</dependency>
 		<!-- Spring Dependencies -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jms</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-activemq</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
