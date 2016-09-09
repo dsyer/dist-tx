@@ -18,15 +18,12 @@ package com.springsource.open.foo;
 
 import javax.jms.ConnectionFactory;
 
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.connection.TransactionAwareConnectionFactoryProxy;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.transaction.PlatformTransactionManager;
 
 @SpringBootApplication
 public class ListenerApplication {
@@ -40,32 +37,13 @@ public class ListenerApplication {
 	}
 
 	@Bean
-	public BeanPostProcessor connectionFactoryPostProcessor(
-			PlatformTransactionManager transactionManager) {
-		return new BeanPostProcessor() {
-
-			@Override
-			public Object postProcessBeforeInitialization(Object bean, String beanName)
-					throws BeansException {
-				return bean;
-			}
-
-			@Override
-			public Object postProcessAfterInitialization(Object bean, String beanName)
-					throws BeansException {
-				if (bean instanceof ConnectionFactory) {
-					TransactionAwareConnectionFactoryProxy proxy = new TransactionAwareConnectionFactoryProxy(
-							(ConnectionFactory) bean);
-					proxy.setSynchedLocalTransactionAllowed(true);
-					return proxy;
-				}
-				if (bean instanceof DefaultJmsListenerContainerFactory) {
-					((DefaultJmsListenerContainerFactory) bean)
-							.setTransactionManager(transactionManager);
-				}
-				return bean;
-			}
-		};
+	public ConnectionFactory connectionFactory() {
+		ActiveMQConnectionFactory target = new ActiveMQConnectionFactory(
+				"vm://localhost?broker.persistent=false&jms.prefetchPolicy.queuePrefetch=0");
+		TransactionAwareConnectionFactoryProxy proxy = new TransactionAwareConnectionFactoryProxy(
+				target);
+		proxy.setSynchedLocalTransactionAllowed(true);
+		return proxy;
 	}
 
 	public static void main(String[] args) throws Exception {

@@ -16,7 +16,7 @@
 
 package com.springsource.open.foo.async;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,7 +84,7 @@ public abstract class AbstractAsynchronousMessageTriggerTests implements
 		lifecycle.stop();
 		// Give it time to finish up...
 		Thread.sleep(2000);
-		assertTrue("Wrong item count: " + handler.getItemCount(), handler.getItemCount() >= 2);
+		assertEquals(2, handler.getItemCount());
 
 		checkPostConditions();
 
