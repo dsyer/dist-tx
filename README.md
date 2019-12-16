@@ -6,7 +6,7 @@ This project has updates to the sample code from the [JavaWorld article](http://
 
 All of the samples use Spring to configure the underlying infrastructure (databases and so on), and the configuration is in `src/main/java/**`, with annotations for dependency injection, and using Spring Boot autoconfiguration wherever possible. They also all use embedded database and messaging instances, so you don't need to start any external processes (except for the RabbitMQ example). This is not intended for production use, and I have heard reports of XA problems with several open source RDBMS platforms, including Apache Derby (used in the XA samples without any problems, but this is not an exhaustive test).
 
-Unit tests are used to show the features of each pattern in action. To run them in Eclipse just right click (on a test or on the project) and choose Run As->JUnit Test. All tests should pass. Most use the integration test support from Spring to roll back a transaction automatically, so that the tests can make assertions about the success of the most common failure scenario (full rollback).
+Unit tests are used to show the features of each pattern in action. To run them in Eclipse just right click (on a test or on the project) and choose `Run As->JUnit Test`. In VSCode open up indeividual test classes and run them one by one with the `Run Test` link added to the class by the Java extensions. All tests should pass. Most use the integration test support from Spring to roll back a transaction automatically, so that the tests can make assertions about the success of the most common failure scenario (full rollback).
 
 
 ### Project `atomikos-db`
