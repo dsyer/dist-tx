@@ -21,6 +21,10 @@ dependency-reduced-pom.xml
 .classpath
 .project
 .settings/
+.attach_pid*
+
+# VSCode
+.vscode/
 
 # IntelliJ IDEA Files
 
