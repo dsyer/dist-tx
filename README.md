@@ -2,7 +2,7 @@
 
 ## The sample code
 
-This project has updates to the sample code from the [JavaWorld article](http://www.javaworld.com/article/2077963/open-source-tools/distributed-transactions-in-spring--with-and-without-xa.html) on distributed transactions from 2008. It is packaged as a set of Maven projects. All the projects should work as standalones; there are no dependencies between projects and no parent POM for the Maven metadata. If you don't want to use Maven at all, you need to use the dependency information in the `pom.xml to create a classpath for the build.
+This project has updates to the sample code from the [JavaWorld article](http://www.javaworld.com/article/2077963/open-source-tools/distributed-transactions-in-spring--with-and-without-xa.html) on distributed transactions from 2008. It is packaged as a set of Maven projects. All the projects should work as standalones; there are no dependencies between projects and no parent POM for the Maven metadata. If you don't want to use Maven at all, you need to use the dependency information in the `pom.xml` to create a classpath for the build.
 
 All of the samples use Spring to configure the underlying infrastructure (databases and so on), and the configuration is in `src/main/java/**`, with annotations for dependency injection, and using Spring Boot autoconfiguration wherever possible. They also all use embedded database and messaging instances, so you don't need to start any external processes (except for the RabbitMQ example). This is not intended for production use, and I have heard reports of XA problems with several open source RDBMS platforms, including Apache Derby (used in the XA samples without any problems, but this is not an exhaustive test).
 
@@ -26,7 +26,7 @@ This is the project showing a Best Efforts 1PC approach to linked database updat
 
 ### Project `shared-jms-db`
 
-This is the project showing a shared resource approach to message-driven database updates. It only works with a very old version of ActiveMQ (5.1). The important features of the configuration are described in the article text. The main entry point is the `SynchronousMessage*Tests`unit test .
+This is the project showing a shared resource approach to message-driven database updates. It only works with a very old version of ActiveMQ (5.1) and Spring Boot (1.4). The important features of the configuration are described in the article text. The main entry point is the `SynchronousMessage*Tests`unit test .
 
 The `JmsTransactionAwareDataSourceProxy` that is used to synchronize the JMS `Session` with the Spring transaction is an extension of the Spring `TransactionAwareDataSourceProxy`. It might not be the best way to implement this pattern, but it is the quickest and most direct that works for the purpose of this example.
 

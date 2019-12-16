@@ -107,7 +107,7 @@ public class DataSourceInitializer implements InitializingBean, DisposableBean {
 	}
 
 	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(dataSource);
+		Assert.notNull(dataSource, "DataSource should not be null");
 		if (!initialized.containsKey(dataSource)) {
 			initialized.put(dataSource, false);
 		}

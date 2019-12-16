@@ -20,10 +20,10 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Date;
 
-import org.junit.Test;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.springsource.open.db.BaseDatasourceTests;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 public class DatasourceTests extends BaseDatasourceTests {
 

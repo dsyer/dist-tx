@@ -20,10 +20,10 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.test.jdbc.JdbcTestUtils;
 
-public class AsynchronousMessageTriggerAndRollbackTests  extends AbstractAsynchronousMessageTriggerTests {
+public class AsynchronousMessageTriggerAndRollbackTests extends AbstractAsynchronousMessageTriggerTests {
 
 
 	@Test

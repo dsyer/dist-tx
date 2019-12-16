@@ -23,9 +23,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +34,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.Lifecycle;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import com.springsource.open.foo.Handler;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public abstract class AbstractAsynchronousMessageTriggerTests implements
 		ApplicationContextAware {
@@ -64,7 +61,7 @@ public abstract class AbstractAsynchronousMessageTriggerTests implements
 		this.lifecycle = (Lifecycle) applicationContext;
 	}
 
-	@Before
+	@BeforeEach
 	public void clearData() {
 		// Start the listeners...
 		lifecycle.start();
@@ -73,7 +70,7 @@ public abstract class AbstractAsynchronousMessageTriggerTests implements
 		jdbcTemplate.update("delete from T_FOOS");
 	}
 
-	@After
+	@AfterEach
 	public void waitForMessages() throws Exception {
 
 		int count = 0;

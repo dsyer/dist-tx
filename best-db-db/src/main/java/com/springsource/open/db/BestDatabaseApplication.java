@@ -24,9 +24,10 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.init.DataSourceInitializer;
@@ -63,15 +64,27 @@ public class BestDatabaseApplication {
 	}
 
 	@Bean
+	@Primary
 	@ConfigurationProperties("first.datasource")
-	public DataSource firstDataSource() {
-		return DataSourceBuilder.create().build();
+	public DataSourceProperties firstDataSourceProperties() {
+		return new DataSourceProperties();
+	}
+
+	@Bean
+	@Primary
+	public DataSource firstDataSource(@Qualifier("firstDataSourceProperties") DataSourceProperties properties) {
+		return properties.initializeDataSourceBuilder().build();
 	}
 
 	@Bean
 	@ConfigurationProperties("second.datasource")
-	public DataSource secondDataSource() {
-		return DataSourceBuilder.create().build();
+	public DataSourceProperties secondDataSourceProperties() {
+		return new DataSourceProperties();
+	}
+
+	@Bean
+	public DataSource secondDataSource(@Qualifier("secondDataSourceProperties") DataSourceProperties properties) {
+		return properties.initializeDataSourceBuilder().build();
 	}
 
 	@Bean

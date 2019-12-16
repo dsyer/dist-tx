@@ -22,19 +22,16 @@ import java.io.File;
 
 import javax.sql.DataSource;
 
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.jta.JtaTransactionManager;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 public abstract class BaseDatasourceTests {
 
@@ -52,14 +49,14 @@ public abstract class BaseDatasourceTests {
 		return otherJdbcTemplate;
 	}
 
-	@Before
+	@BeforeEach
 	public void check() {
 		assertTrue("Wrong transactionManager: " + transactionManager,
 				transactionManager instanceof JtaTransactionManager);
 	}
 
-	@BeforeClass
-	@AfterClass
+	@BeforeAll
+	@AfterAll
 	public static void clearLog() {
 		// Ensure that Atomikos logging directory exists
 		File dir = new File("atomikos");
