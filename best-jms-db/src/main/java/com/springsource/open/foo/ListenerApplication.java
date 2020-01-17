@@ -40,19 +40,11 @@ public class ListenerApplication {
 	}
 
 	@Bean
-	public BeanPostProcessor connectionFactoryPostProcessor(
-			PlatformTransactionManager transactionManager) {
+	public BeanPostProcessor connectionFactoryPostProcessor(PlatformTransactionManager transactionManager) {
 		return new BeanPostProcessor() {
 
 			@Override
-			public Object postProcessBeforeInitialization(Object bean, String beanName)
-					throws BeansException {
-				return bean;
-			}
-
-			@Override
-			public Object postProcessAfterInitialization(Object bean, String beanName)
-					throws BeansException {
+			public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 				if (bean instanceof ConnectionFactory) {
 					TransactionAwareConnectionFactoryProxy proxy = new TransactionAwareConnectionFactoryProxy(
 							(ConnectionFactory) bean);
@@ -60,8 +52,7 @@ public class ListenerApplication {
 					return proxy;
 				}
 				if (bean instanceof DefaultJmsListenerContainerFactory) {
-					((DefaultJmsListenerContainerFactory) bean)
-							.setTransactionManager(transactionManager);
+					((DefaultJmsListenerContainerFactory) bean).setTransactionManager(transactionManager);
 				}
 				return bean;
 			}

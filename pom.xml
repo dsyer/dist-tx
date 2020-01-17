@@ -18,6 +18,7 @@
 		<module>shared-jms-db</module>
 		<module>atomikos-db</module>
 		<module>best-jms-db</module>
+		<module>best-kafka-db</module>
 		<module>best-rabbit-db</module>
 		<module>best-db-db</module>
 	</modules>

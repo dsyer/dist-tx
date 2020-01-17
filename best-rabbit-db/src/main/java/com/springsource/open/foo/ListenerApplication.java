@@ -29,7 +29,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @SpringBootApplication
 public class ListenerApplication {
-	
+
 	@Bean
 	public Queue sync() {
 		return new Queue("queue");
@@ -49,22 +49,13 @@ public class ListenerApplication {
 	}
 
 	@Bean
-	public BeanPostProcessor connectionFactoryPostProcessor(
-			PlatformTransactionManager transactionManager) {
+	public BeanPostProcessor connectionFactoryPostProcessor(PlatformTransactionManager transactionManager) {
 		return new BeanPostProcessor() {
 
 			@Override
-			public Object postProcessBeforeInitialization(Object bean, String beanName)
-					throws BeansException {
-				return bean;
-			}
-
-			@Override
-			public Object postProcessAfterInitialization(Object bean, String beanName)
-					throws BeansException {
+			public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 				if (bean instanceof SimpleRabbitListenerContainerFactory) {
-					((SimpleRabbitListenerContainerFactory) bean)
-							.setTransactionManager(transactionManager);
+					((SimpleRabbitListenerContainerFactory) bean).setTransactionManager(transactionManager);
 				}
 				return bean;
 			}
