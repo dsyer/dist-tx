@@ -16,6 +16,7 @@
 
 	<modules>
 		<module>shared-jms-db</module>
+		<module>shared-kafka-db</module>
 		<module>atomikos-db</module>
 		<module>best-jms-db</module>
 		<module>best-kafka-db</module>

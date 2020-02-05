@@ -17,7 +17,7 @@ public class FailureSimulator {
 	private KafkaTemplate<Object, String> kafkaTemplate;
 
 	@Autowired
-	public void setJmsTemplate(KafkaTemplate<Object, String> kafkaTemplate) {
+	public void setKafkaTemplate(KafkaTemplate<Object, String> kafkaTemplate) {
 		this.kafkaTemplate = kafkaTemplate;
 	}
 
